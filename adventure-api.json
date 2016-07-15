@@ -28,7 +28,7 @@
     }
   },
   "endpoints": {
-    "/user/{id}": [
+    "/users/{id}": [
       {
         "method": "get",
         "accepts": {
@@ -46,7 +46,7 @@
         "returns": { "user": "User" }
       }
     ],
-    "/user/login": [
+    "/users/login": [
       {
         "method": "post",
         "accepts": {
