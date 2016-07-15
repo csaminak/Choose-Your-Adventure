@@ -3,40 +3,34 @@
     window.story = ns = (ns || {});
 
 
-    var $storyView = $('.story-list');
+    var $adventuresView = $('.story-list');
     var $storyStep = $('.story-step');
     var $user = $('#login-name');
     var $loginForm = $('form.login');
 
     console.log($loginForm); //TODO delete
 
-    $storyView.hide();
+    $adventuresView.hide();
     $storyStep.hide();
 
     $loginForm.on('submit', function signIn(event){
         event.preventDefault();
         ns.login($user.val())
-            .done(storyList);
+            .done(adventureList);
     });
 
-    $('ul').on('click', 'button', function (event){
-        if(event.target === '[data-id="1"]') {
-            console.log('button1');
-        } else if(event.target === '[data-id="2"]') {
-            console.log('button2');
-        } else if(event.target === '[data-id="3"]'){
-            console.log('button3');
-        }
+    $adventuresView.on('click', 'button', function (event){
+        //depending on which button the event targets a certain type of story will appear.
     });
 
     /**
      * when user logs in they will be directed to a view with different stories to pick.
      * @return {void}
      */
-    function storyList() {
+    function adventureList() {
         $storyStep.hide();
         $('.login').hide();
-        $storyView
+        $adventuresView
             .show()
             .find('ul')
                 .append('<li class="adventure">\
