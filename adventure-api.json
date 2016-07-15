@@ -1,0 +1,93 @@
+{
+  "data": {
+    "User": {
+      "id": "Number",
+      "name": "String",
+      "login_time": "Number",
+      "current_step": "Number",
+      "created_at": "Number",
+      "updated_at": "Number"
+    },
+    "Adventure": {
+      "id": "Number",
+      "name": "String",
+      "created_at": "Number",
+      "updated_at": "Number"
+    },
+    "Step": {
+      "id": "Number",
+      "text": "String",
+      "is_last": "Boolean",
+      "option_a_text": "String",
+      "option_a_step_id": "Number",
+      "option_b_text": "String",
+      "option_b_step_id": "Number",
+      "adventure_id": "Number",
+      "created_at": "Number",
+      "updated_at": "Number"
+    }
+  },
+  "endpoints": {
+    "/user/{id}": [
+      {
+        "method": "get",
+        "accepts": {
+          "Authorization": { "source": "header", "value": "String" },
+          "id": { "source": "path", "value": "Number" }
+        },
+        "returns": { "user": "User" }
+      },
+      {
+        "method": "patch",
+        "accepts": {
+          "Authorization": { "source": "header", "value": "String" },
+          "user": { "source": "body", "value": { "user": "User" } }
+        },
+        "returns": { "user": "User" }
+      }
+    ],
+    "/user/login": [
+      {
+        "method": "post",
+        "accepts": {
+          "name": { "source": "body", "value": "String" }
+        },
+        "returns": { "user": "User", "token": "String" }
+      }
+    ],
+    "/adventure": [
+      {
+        "method": "get",
+        "accepts": null,
+        "returns": { "adventures": "Array<Adventure>" }
+      }
+    ],
+    "/adventure/{id}": [
+      {
+        "method": "get",
+        "accepts": {
+          "id": { "source": "path", "value": "Number" }
+        },
+        "returns": { "adventure": "Adventure", "firstStep": "Step" }
+      }
+    ],
+    "/step/{id}": [
+      {
+        "method": "get",
+        "accepts": {
+          "id": { "source": "path", "value": "Number" }
+        },
+        "returns": { "step": "Step" }
+      }
+    ],
+    "/step/next": [
+      {
+        "method": "get",
+        "accepts": {
+          "Authorization": { "source": "header", "value": "String" }
+        },
+        "returns": { "adventure": "Adventure", "step": "Step" }
+      }
+    ]
+  }
+}
