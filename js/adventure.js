@@ -22,6 +22,8 @@
      */
     function login(username) {
         if(!username) {
+            $('.login p')
+                .prepend('<p class="no-login">Sorry! You did not enter your name.</p>');
             return;
         }
         $.ajax({
