@@ -4,8 +4,11 @@
 
     var token;
     var $user = $('#login-name');
+    var loginForm = $('form.login');
 
-    $('.login').on('submit', function signIn(event){
+    console.log(loginForm); //TODO delete
+
+    loginForm.on('submit', function signIn(event){
         event.preventDefault();
         login($user.val());
     });
@@ -18,7 +21,22 @@
      * @return {void}
      */
     function login(username) {
-        //send a ajax call to server with the username and get a token back
+        if(!username) {
+            return;
+        }
+        $.ajax({
+            url: 'https://tiydc-coa-2.herokuapp.com/users/login',
+            method: 'post',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            data: JSON.stringify({username: username}),
+            dataType: 'json'
+        })
+        .done(function(data){
+            token =  data.token;
+            console.log('This is the token: ' + token); //TODO delete
+        });
     }
 
 
