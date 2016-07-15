@@ -5,8 +5,6 @@
     var token;
     var userID;
 
-
-
     /**
      * Takes the name user has provided, and brings them to a welcome screen.
      * A token will be saved for later use.
@@ -33,7 +31,7 @@
         .done(function saveToken(data) {
             token = data.token;
             userID = data.id;
-            console.log('This is the token and userID respectively: ' + token + ' ' + userID); //TODO delete
+            console.log('This is the token and userID: ' + token + ' ' + userID); //TODO delete
         })
         .fail(errorMessage);
     };

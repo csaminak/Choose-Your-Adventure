@@ -21,6 +21,7 @@
                 $storyStep.show();
                 $loginForm.hide();
                 $('.login p').hide();
+                $('.story-end').hide();
             });
 
     });
