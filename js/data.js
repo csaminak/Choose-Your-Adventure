@@ -6,10 +6,10 @@
     var userID;
 
     /**
-     * Takes the name user has provided, and brings them to a welcome screen.
-     * A token will be saved for later use.
-     * @param  {string} username  [name that user types in]
-     * @return {object} xhr
+     * Takes the name user has provided and logs them into the story screen.
+     * A token will be saved for later use along with a userID.
+     * @param  {string} username  name that user types in
+     * @return {object}     xhr   this is where the data that contains token and id is stored.
      */
     ns.login = function login(username) {
         if(!username) {
@@ -37,11 +37,12 @@
     };
 
     /**
-     * TODO What should errorMessage do?????
+     * TODO What should errorMessage do?????*********************************????????
      * @param  {[type]} xhr [description]
      * @return {[type]}     [description]
      */
     function errorMessage(xhr) {
+        //xhr status code is something then story options are unable to be displayed.
         console.log(xhr);
     }
 
