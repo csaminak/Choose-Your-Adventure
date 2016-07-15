@@ -20,7 +20,7 @@
             return defer.promise();
         }
         return $.ajax({
-            url: 'https://tiydc-coa-2.herokuapp.com/users/login',
+            url: 'https://tiydc-coa-1.herokuapp.com/users/login',
             method: 'post',
             headers: {
                 'Content-Type': 'application/json'
@@ -44,6 +44,15 @@
     function errorMessage(xhr) {
         //xhr status code is something then story options are unable to be displayed.
         console.log(xhr);
+    }
+
+    ns.getAdventures = function getAdventures(){
+        return $.ajax({
+            url: 'https://tiydc-coa-1.herokuapp.com/adventure',
+            method: 'get',
+            headers: {'Authorization': token},
+            dataType: 'json'
+        });
     }
 
 
