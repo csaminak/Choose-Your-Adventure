@@ -4,6 +4,10 @@
 
     var token;
     var userID;
+    var firstStep;
+    var adventure;
+    var optionA;
+    var optionB;
 
     /**
      * Takes the name user has provided and logs them into the story screen.
@@ -52,6 +56,27 @@
             method: 'get',
             headers: {'Authorization': token},
             dataType: 'json'
+        })
+        .done(function saveStep(storyList) {
+            storyList.forEach(function story(data){
+                firstStep = data.first_step_id;
+                adventure = data.id;
+                console.log(firstStep, adventure);//TODO DELETE
+            });
+        });
+    };
+
+    ns.enterStory = function enterStory(){
+        return $.ajax({
+            url: 'https://tiydc-coa-1.herokuapp.com/step/' + firstStep,
+            method: 'get',
+            headers: {'Authorization': token, 'first_step_id': firstStep},
+            dataType: 'json'
+        })
+        .done(function saveOptionStep(data){
+            optionA = data.option_a_step_id;
+            optionB = data.option_b_step_id;
+            console.log(data, optionA, optionB); //TODO DELTE
         });
     };
 
