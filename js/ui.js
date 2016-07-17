@@ -9,8 +9,8 @@
     var $storyStep = $('.story-step');
     var $optionAText = $('.option-a');
     var $optionBText = $('.option-b');
+    var $storyEnd = $('.story-end');
 
-    console.log($loginForm); //TODO delete
 
     $adventuresView.hide();
     $storyStep.hide();
@@ -45,7 +45,7 @@
         } else if (event.target.innerText === 'Choose B') {
             ns.selectOptionB(event.target)
                 .done(function(data) {
-                    displayStory();
+                    displayStory(data);
                     console.log(data);
                 });
         }
@@ -78,25 +78,26 @@
      * User has entered the story and will see the story text and
      * the story options in which they can select, if the story has
      * come to an end, then no options will show.
-     * @param  {object} data the current story's step and options with text
-     * @return {[type]}      [description]
+     * @param  {object}    data    the current story's step and options with text
+     * @return {void}
      */
     function displayStory(data) {
-        if (data.termination){
+        if (data.termination) {
             $adventuresView.hide();
             $('.option').hide();
+            $storyEnd.show();
         } else {
             $adventuresView.hide();
-            $('.story-end').hide();
-            $storyStep
-                .show()
-                .find('.story-text')
-                    .text(data.body);
+            $storyEnd.hide();
             $optionAText
                 .text(data.option_a_text);
             $optionBText
                 .text(data.option_b_text);
         }
+        $storyStep
+            .show()
+            .find('.story-text')
+                .text(data.body);
     }
 
 
