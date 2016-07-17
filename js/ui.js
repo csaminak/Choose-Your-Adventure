@@ -10,69 +10,79 @@
     var $optionAText = $('.option-a');
     var $optionBText = $('.option-b');
     var $storyEnd = $('.story-end');
-
+    var storyList = [];
 
     $adventuresView.hide();
     $storyStep.hide();
 
+
+
+    // Get the list of stories to show the user from the server.
     $loginForm.on('submit', function signIn(event){
         event.preventDefault();
         ns.login($user.val())
             .done(function setStoriesView(){
                 ns.getAdventures()
                     .done(function pullStories(data){
-                        adventureList(data);
+                        // Save the list of stories that the server returns
+                        //  into a global variable so we can use it later
+                        storyList = data;
+                        adventureList();
                     });
             });
     });
 
-
-    $adventuresView.on('click', 'button', function viewStory(event){
-        ns.enterStory(event.target)
-            .done(function(data) {
-                displayStory(data);
-            });
-    });
-
-
-    $storyStep.on('click', 'button', function viewStep(event){
-        if (event.target.innerText === 'Choose A') {
-            ns.selectOptionA(event.target)
-                .done(function(data) {
-                    displayStory(data);
-                    console.log(data);
-                });
-        } else if (event.target.innerText === 'Choose B') {
-            ns.selectOptionB(event.target)
-                .done(function(data) {
-                    displayStory(data);
-                    console.log(data);
-                });
-        }
-
-    });
-
-
-
     /**
-     * when user logs they will be presented with a list of stories to choose from.
+     * Show the list of stories to the user.
      * @param {array} storyList, the list of stories from ns.getAdventures.
      * @return {void}
      */
-    function adventureList(storyList) {
-        console.log(storyList); //TODO DELETE
-        storyList.forEach(function showStories(data) {
+    function adventureList() {
+        console.log('storyList: ', storyList);
+        storyList.forEach(function showStories(story) {
             $adventuresView
                 .show()
                 .find('ul')
                     .append('<li>\
-                                <h2>'+ data.title +'</h2>\
-                                <button data-id='+ data.id +'>Begin Adventure</button>\
+                                <h2>'+ story.title +'</h2>\
+                                <button data-id='+ story.id +'>Begin Adventure</button>\
                              </li>');
         });
         $storyStep.hide();
         $('.login').hide();
     }
+
+
+    /**
+     * Loops through the list of stories to find the story selected.
+     * @param  {Array}  storyList The array with the various stories when user logs in
+     * @param  {string} storyId   the id in the individual story object in the array
+     * @return {object}           the story object with it's various properties.
+     */
+    function findStory(storyList, storyId) {
+        // TODO: Ask Jordan why we can't return story from within the forEach loop
+        var selectedStory = {};
+        storyList.forEach(function(story) {
+            if (story.id === storyId) {
+                selectedStory = story;
+            }
+        });
+
+        return selectedStory;
+    }
+
+    // Get the story details
+    $adventuresView.on('click', 'button', function viewStory(event){
+        var storyId = $(event.target).data('id');
+        var story = findStory(storyList, storyId);
+
+        // Get story details starting at the specified step from server
+        ns.enterStory(story.first_step_id)
+            .done(function(data) {
+                // Show story details at step
+                displayStory(data);
+            });
+    });
 
     /**
      * User has entered the story and will see the story text and
@@ -100,7 +110,20 @@
                 .text(data.body);
     }
 
-
-
-
+    // Get the next step of the story
+    $storyStep.on('click', 'button', function viewStep(event){
+        if (event.target.innerText === 'Choose A') {
+            ns.selectOptionA(event.target)
+                .done(function(data) {
+                    displayStory(data);
+                    console.log(data);
+                });
+        } else if (event.target.innerText === 'Choose B') {
+            ns.selectOptionB(event.target)
+                .done(function(data) {
+                    displayStory(data);
+                    console.log(data);
+                });
+        }
+    });
 })(window.story);
