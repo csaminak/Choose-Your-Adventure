@@ -80,6 +80,18 @@
         });
     };
 
+    ns.selectOption = function selectOption() {
+        return $.ajax ({
+            url: 'https://tiydc-coa-1.herokuapp.com/step/next',
+            method: 'get',
+            headers: {'Authorization': token, },
+            dataType: 'json'
+        })
+        .done(function(data){
+            console.log(data); //TODO DELETE
+        })
+    };
+
 
 
 })(window.story);
