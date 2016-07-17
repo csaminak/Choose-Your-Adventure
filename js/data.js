@@ -80,11 +80,23 @@
         });
     };
 
-    ns.selectOption = function selectOption() {
-        return $.ajax ({
-            url: 'https://tiydc-coa-1.herokuapp.com/step/next',
+    ns.selectOptionA = function selectOptionA() {
+        return $.ajax({
+            url: 'https://tiydc-coa-1.herokuapp.com/step/' + optionA,
             method: 'get',
-            headers: {'Authorization': token, },
+            headers: {'Authorization': token, 'option_a_step_id': optionA},
+            dataType: 'json'
+        })
+        .done(function(data){
+            console.log(data); //TODO DELETE
+        });
+    };
+
+    ns.selectOptionB = function selectOptionB() {
+        return $.ajax({
+            url: 'https://tiydc-coa-1.herokuapp.com/step/' + optionB,
+            method: 'get',
+            headers: {'Authorization': token, 'option_a_step_id': optionB},
             dataType: 'json'
         })
         .done(function(data){

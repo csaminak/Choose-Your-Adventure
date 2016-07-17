@@ -27,14 +27,30 @@
     });
 
 
-    $adventuresView.on('click', 'button', function (event){
+    $adventuresView.on('click', 'button', function viewStory(event){
         ns.enterStory(event.target)
-            .done(function storyStep(data) {
-                displayStoryStep(data);
+            .done(function(data) {
+                displayStory(data);
             });
     });
 
 
+    $storyStep.on('click', 'button', function viewStep(event){
+        if (event.target.innerText === 'Choose A') {
+            ns.selectOptionA(event.target)
+                .done(function(data) {
+                    displayStory(data);
+                    console.log(data);
+                });
+        } else if (event.target.innerText === 'Choose B') {
+            ns.selectOptionB(event.target)
+                .done(function(data) {
+                    displayStory();
+                    console.log(data);
+                });
+        }
+
+    });
 
 
 
@@ -65,7 +81,7 @@
      * @param  {object} data the current story's step and options with text
      * @return {[type]}      [description]
      */
-    function displayStoryStep(data) {
+    function displayStory(data) {
         if (data.termination){
             $adventuresView.hide();
             $('.option').hide();
@@ -81,7 +97,6 @@
             $optionBText
                 .text(data.option_b_text);
         }
-
     }
 
 
