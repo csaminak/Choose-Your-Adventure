@@ -4,7 +4,7 @@
 
     var token;
     var userID;
-    var firstStep;
+    var step;
     var adventure;
     var optionA;
     var optionB;
@@ -58,18 +58,18 @@
         })
         .done(function saveStep(storyList) {
             storyList.forEach(function story(data){
-                firstStep = data.first_step_id;
+                step = data.first_step_id;
                 adventure = data.id;
-                console.log(firstStep, adventure);//TODO DELETE
+                console.log(step, adventure);//TODO DELETE
             });
         });
     };
 
     ns.enterStory = function enterStory(){
         return $.ajax({
-            url: 'https://tiydc-coa-1.herokuapp.com/step/' + firstStep,
+            url: 'https://tiydc-coa-1.herokuapp.com/step/' + step,
             method: 'get',
-            headers: {'Authorization': token, 'first_step_id': firstStep},
+            headers: {'Authorization': token},
             dataType: 'json'
         })
         .done(function saveOptionStep(data){
@@ -83,7 +83,7 @@
         return $.ajax({
             url: 'https://tiydc-coa-1.herokuapp.com/step/' + optionA,
             method: 'get',
-            headers: {'Authorization': token, 'option_a_step_id': optionA},
+            headers: {'Authorization': token},
             dataType: 'json'
         })
         .done(function(data){
@@ -97,7 +97,7 @@
         return $.ajax({
             url: 'https://tiydc-coa-1.herokuapp.com/step/' + optionB,
             method: 'get',
-            headers: {'Authorization': token, 'option_b_step_id': optionB},
+            headers: {'Authorization': token},
             dataType: 'json'
         })
         .done(function(data){
@@ -106,6 +106,7 @@
             console.log(data, optionA, optionB); //TODO DELTE
         });
     };
+
 
 
 
