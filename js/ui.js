@@ -7,6 +7,8 @@
     var $loginForm = $('form.login');
     var $adventuresView = $('.story-list');
     var $storyStep = $('.story-step');
+    var $optionAText = $('.option-a');
+    var $optionBText = $('.option-b');
 
     console.log($loginForm); //TODO delete
 
@@ -24,8 +26,12 @@
             });
     });
 
+
     $adventuresView.on('click', 'button', function (event){
-        //depending on which button the event targets a certain type of story will appear.
+        ns.enterStory(event.target)
+            .done(function storyStep(data) {
+                displayStoryStep(data);
+            });
     });
 
 
@@ -43,13 +49,39 @@
             $adventuresView
                 .show()
                 .find('ul')
-                    .append('<li first_step_id=' + data.first_step_id + '>\
+                    .append('<li>\
                                 <h2>'+ data.title +'</h2>\
                                 <button data-id='+ data.id +'>Begin Adventure</button>\
                              </li>');
         });
         $storyStep.hide();
         $('.login').hide();
+    }
+
+    /**
+     * User has entered the story and will see the story text and
+     * the story options in which they can select, if the story has
+     * come to an end, then no options will show.
+     * @param  {object} data the current story's step and options with text
+     * @return {[type]}      [description]
+     */
+    function displayStoryStep(data) {
+        if (data.termination){
+            $adventuresView.hide();
+            $('.option').hide();
+        } else {
+            $adventuresView.hide();
+            $('.story-end').hide();
+            $storyStep
+                .show()
+                .find('.story-text')
+                    .text(data.body);
+            $optionAText
+                .text(data.option_a_text);
+            $optionBText
+                .text(data.option_b_text);
+        }
+
     }
 
 
