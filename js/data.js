@@ -53,7 +53,7 @@
             headers: {'Authorization': token},
             dataType: 'json'
         });
-    }
+    };
 
 
 
