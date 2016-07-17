@@ -35,7 +35,6 @@
         .done(function saveToken(data) {
             token = data.token;
             userID = data.id;
-            console.log('This is the token and userID: ' + token + ' ' + userID); //TODO delete
         })
         .fail(errorMessage);
     };
@@ -88,7 +87,9 @@
             dataType: 'json'
         })
         .done(function(data){
-            console.log(data); //TODO DELETE
+            optionA = data.option_a_step_id;
+            optionB = data.option_b_step_id;
+            console.log(data, optionA, optionB); //TODO DELTE
         });
     };
 
@@ -96,11 +97,13 @@
         return $.ajax({
             url: 'https://tiydc-coa-1.herokuapp.com/step/' + optionB,
             method: 'get',
-            headers: {'Authorization': token, 'option_a_step_id': optionB},
+            headers: {'Authorization': token, 'option_b_step_id': optionB},
             dataType: 'json'
         })
         .done(function(data){
-            console.log(data); //TODO DELETE
+            optionA = data.option_a_step_id;
+            optionB = data.option_b_step_id;
+            console.log(data, optionA, optionB); //TODO DELTE
         });
     };
 
