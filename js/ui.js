@@ -3,13 +3,10 @@
     window.story = ns = (ns || {});
 
 
-    var $adventuresView = $('.story-list');
-    var $storyStep = $('.story-step');
     var $user = $('#login-name');
     var $loginForm = $('form.login');
-    var adventureTitle;
-    var adventureId;
-
+    var $adventuresView = $('.story-list');
+    var $storyStep = $('.story-step');
 
     console.log($loginForm); //TODO delete
 
@@ -19,10 +16,10 @@
     $loginForm.on('submit', function signIn(event){
         event.preventDefault();
         ns.login($user.val())
-            .done(function settingStoryView(){
+            .done(function setStoriesView(){
                 ns.getAdventures()
-                    .done(function(data){
-                        adventureList(data)
+                    .done(function pullStories(data){
+                        adventureList(data);
                     });
             });
     });
@@ -31,22 +28,28 @@
         //depending on which button the event targets a certain type of story will appear.
     });
 
+
+
+
+
     /**
-     * when user logs in they will be directed to a view with different stories to pick.
-     * @param {array} storyList the list of stories from ns.getAdventures.
+     * when user logs they will be presented with a list of stories to choose from.
+     * @param {array} storyList, the list of stories from ns.getAdventures.
      * @return {void}
      */
     function adventureList(storyList) {
-        console.log(storyList);
+        console.log(storyList); //TODO DELETE
+        storyList.forEach(function showStories(data) {
+            $adventuresView
+                .show()
+                .find('ul')
+                    .append('<li first_step_id=' + data.first_step_id + '>\
+                                <h2>'+ data.title +'</h2>\
+                                <button data-id='+ data.id +'>Begin Adventure</button>\
+                             </li>');
+        });
         $storyStep.hide();
         $('.login').hide();
-        $adventuresView
-            .show()
-            .find('ul')
-                .append('<li class="adventure">\
-                            <h2>'+ adventureTitle +'</h2>\
-                            <button data-id='+ adventureId +'>Begin Adventure</button>\
-                         </li>');
     }
 
 
