@@ -4,8 +4,6 @@
 
     var token;
     var userID;
-    var step;
-    var adventure;
     var optionA;
     var optionB;
 
@@ -55,19 +53,12 @@
             method: 'get',
             headers: {'Authorization': token},
             dataType: 'json'
-        })
-        .done(function saveStep(storyList) {
-            storyList.forEach(function story(data){
-                step = data.first_step_id;
-                adventure = data.id;
-                console.log(step, adventure);//TODO DELETE
-            });
         });
     };
 
-    ns.enterStory = function enterStory(){
+    ns.enterStory = function enterStory(storyFirstStepId) {
         return $.ajax({
-            url: 'https://tiydc-coa-1.herokuapp.com/step/' + step,
+            url: 'https://tiydc-coa-1.herokuapp.com/step/' + storyFirstStepId,
             method: 'get',
             headers: {'Authorization': token},
             dataType: 'json'
