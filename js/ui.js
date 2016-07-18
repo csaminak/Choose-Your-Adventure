@@ -11,10 +11,10 @@
     var $optionBText = $('.option-b');
     var $storyEnd = $('.story-end');
     var storyList = [];
+    var stepDetails = {};
 
     $adventuresView.hide();
     $storyStep.hide();
-
 
 
     // Get the list of stories to show the user from the server.
@@ -31,6 +31,7 @@
                     });
             });
     });
+
 
     /**
      * Show the list of stories to the user.
@@ -71,6 +72,7 @@
         return selectedStory;
     }
 
+
     // Get the story details
     $adventuresView.on('click', 'button', function viewStory(event){
         var storyId = $(event.target).data('id');
@@ -79,10 +81,13 @@
         // Get story details starting at the specified step from server
         ns.enterStory(story.first_step_id)
             .done(function(data) {
+                console.log('data', data);
+                stepDetails = data;
                 // Show story details at step
                 displayStory(data);
             });
     });
+
 
     /**
      * User has entered the story and will see the story text and
@@ -110,20 +115,27 @@
                 .text(data.body);
     }
 
+
+
     // Get the next step of the story
     $storyStep.on('click', 'button', function viewStep(event){
+        // Need to know the following:
+        // option step id
+        // button that was clicked
+        var option;
         if (event.target.innerText === 'Choose A') {
-            ns.selectOptionA(event.target)
-                .done(function(data) {
-                    displayStory(data);
-                    console.log(data);
-                });
+            option = stepDetails.option_a_step_id;
         } else if (event.target.innerText === 'Choose B') {
-            ns.selectOptionB(event.target)
-                .done(function(data) {
-                    displayStory(data);
-                    console.log(data);
-                });
+            option = stepDetails.option_b_step_id;
         }
+        ns.selectOption(option)
+            .done(function(data) {
+                displayStory(data);
+                console.log(data);
+            });
     });
+
+
+
+
 })(window.story);
