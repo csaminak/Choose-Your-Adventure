@@ -41,9 +41,9 @@
      * @return {void}
      */
     function errorMessage(xhr) {
-        if (xhr.statusCode starts with 5) {
+        if (xhr.statusCode >= 500 || xhr.statusCode <= 599) {
             alert('the server is down, please try again later.');
-        } else if(xhr.statusCode starts with 4) {
+        } else if(xhr.statusCode >= 400 || xhr.statusCode <= 499) {
             alert('the link you are trying to reach was not found.');
         } else {
             alert('issue is unknown at this time.');
@@ -60,7 +60,6 @@
     };
 
     ns.getStepDetails = function getStepDetails(stepId) {
-        // Get the selected story at the specified step
         return $.ajax({
             url: 'https://tiydc-coa-1.herokuapp.com/step/' + stepId,
             method: 'get',
