@@ -37,12 +37,17 @@
 
     /**
      * TODO What should errorMessage do?????*********************************????????
-     * @param  {[type]} xhr [description]
+     * @param  {} xhr [description]
      * @return {[type]}     [description]
      */
     function errorMessage(xhr) {
-        //xhr status code is something then story options are unable to be displayed.
-        console.log(xhr);
+        if (xhr.statusCode starts with 5) {
+            alert('the server is down, please try again later.');
+        } else if(xhr.statusCode starts with 4) {
+            alert('the link you are trying to reach was not found.');
+        } else {
+            alert('issue is unknown at this time.');
+        };
     }
 
     ns.getAdventures = function getAdventures(){
@@ -54,25 +59,15 @@
         });
     };
 
-    ns.enterStory = function enterStory(storyFirstStepId) {
+    ns.getStepDetails = function getStepDetails(stepId) {
         // Get the selected story at the specified step
         return $.ajax({
-            url: 'https://tiydc-coa-1.herokuapp.com/step/' + storyFirstStepId,
+            url: 'https://tiydc-coa-1.herokuapp.com/step/' + stepId,
             method: 'get',
             headers: {'Authorization': token},
             dataType: 'json'
         });
     };
-
-    ns.selectOption = function selectOption(option) {
-        return $.ajax({
-            url: 'https://tiydc-coa-1.herokuapp.com/step/' + option,
-            method: 'get',
-            headers: {'Authorization': token},
-            dataType: 'json'
-        });
-    };
-
 
 
 
