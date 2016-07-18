@@ -4,6 +4,7 @@
 
     var token;
     var userID;
+    ns.user = {};
 
     /**
      * Takes the name user has provided and logs them into the story screen.
@@ -28,9 +29,9 @@
             data: JSON.stringify({username: username}),
             dataType: 'json'
         })
-        .done(function saveToken(data) {
-            token = data.token;
-            userID = data.id;
+        .done(function addUserInfo(data) {
+            ns.user.userID = userID = data.id;
+            ns.user.token = token = data.token;
         })
         .fail(errorMessage);
     };

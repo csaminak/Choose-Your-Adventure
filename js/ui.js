@@ -117,6 +117,7 @@
                 stepDetails = data;
                 displayStory();
             });
+        ns.user.step = stepId;
     });
 
 
