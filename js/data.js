@@ -4,8 +4,6 @@
 
     var token;
     var userID;
-    var optionA;
-    var optionB;
 
     /**
      * Takes the name user has provided and logs them into the story screen.
@@ -57,44 +55,21 @@
     };
 
     ns.enterStory = function enterStory(storyFirstStepId) {
+        // Get the selected story at the specified step
         return $.ajax({
             url: 'https://tiydc-coa-1.herokuapp.com/step/' + storyFirstStepId,
             method: 'get',
             headers: {'Authorization': token},
             dataType: 'json'
-        })
-        .done(function saveOptionStep(data){
-            optionA = data.option_a_step_id;
-            optionB = data.option_b_step_id;
-            console.log(data, optionA, optionB); //TODO DELTE
         });
     };
 
-    ns.selectOptionA = function selectOptionA() {
+    ns.selectOption = function selectOption(option) {
         return $.ajax({
-            url: 'https://tiydc-coa-1.herokuapp.com/step/' + optionA,
+            url: 'https://tiydc-coa-1.herokuapp.com/step/' + option,
             method: 'get',
             headers: {'Authorization': token},
             dataType: 'json'
-        })
-        .done(function(data){
-            optionA = data.option_a_step_id;
-            optionB = data.option_b_step_id;
-            console.log(data, optionA, optionB); //TODO DELTE
-        });
-    };
-
-    ns.selectOptionB = function selectOptionB() {
-        return $.ajax({
-            url: 'https://tiydc-coa-1.herokuapp.com/step/' + optionB,
-            method: 'get',
-            headers: {'Authorization': token},
-            dataType: 'json'
-        })
-        .done(function(data){
-            optionA = data.option_a_step_id;
-            optionB = data.option_b_step_id;
-            console.log(data, optionA, optionB); //TODO DELTE
         });
     };
 
