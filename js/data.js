@@ -36,9 +36,9 @@
     };
 
     /**
-     * TODO What should errorMessage do?????*********************************????????
-     * @param  {} xhr [description]
-     * @return {[type]}     [description]
+     * Alerts user when there is an issue with the page.
+     * @param  {object}  xhr   the data returned from the ajax request.
+     * @return {void}
      */
     function errorMessage(xhr) {
         if (xhr.statusCode starts with 5) {
