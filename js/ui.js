@@ -79,25 +79,23 @@
         var story = findStory(storyList, storyId);
 
         // Get story details starting at the specified step from server
-        ns.enterStory(story.first_step_id)
+        ns.getStepDetails(story.first_step_id)
             .done(function(data) {
-                console.log('data', data);
                 stepDetails = data;
                 // Show story details at step
-                displayStory(data);
+                displayStory();
             });
     });
 
 
     /**
      * User has entered the story and will see the story text and
-     * the story options in which they can select, if the story has
+     * the story options in which they can select. If the story has
      * come to an end, then no options will show.
-     * @param  {object}    data    the current story's step and options with text
      * @return {void}
      */
-    function displayStory(data) {
-        if (data.termination) {
+    function displayStory() {
+        if (stepDetails.termination) {
             $adventuresView.hide();
             $('.option').hide();
             $storyEnd.show();
@@ -105,33 +103,31 @@
             $adventuresView.hide();
             $storyEnd.hide();
             $optionAText
-                .text(data.option_a_text);
+                .text(stepDetails.option_a_text);
             $optionBText
-                .text(data.option_b_text);
+                .text(stepDetails.option_b_text);
         }
         $storyStep
             .show()
             .find('.story-text')
-                .text(data.body);
+                .text(stepDetails.body);
     }
 
 
 
     // Get the next step of the story
     $storyStep.on('click', 'button', function viewStep(event){
-        // Need to know the following:
-        // option step id
-        // button that was clicked
-        var option;
+        var stepId;
         if (event.target.innerText === 'Choose A') {
-            option = stepDetails.option_a_step_id;
+            stepId = stepDetails.option_a_step_id;
         } else if (event.target.innerText === 'Choose B') {
-            option = stepDetails.option_b_step_id;
+            stepId = stepDetails.option_b_step_id;
         }
-        ns.selectOption(option)
+        ns.getStepDetails(stepId)
             .done(function(data) {
-                displayStory(data);
-                console.log(data);
+                stepDetails = data;
+                displayStory();
+                console.log(stepDetails);
             });
     });
 
