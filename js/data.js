@@ -47,7 +47,7 @@
             alert('the link you are trying to reach was not found.');
         } else {
             alert('issue is unknown at this time.');
-        };
+        }
     }
 
     ns.getAdventures = function getAdventures(){

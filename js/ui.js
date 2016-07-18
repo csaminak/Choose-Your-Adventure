@@ -17,15 +17,12 @@
     $storyStep.hide();
 
 
-    // Get the list of stories to show the user from the server.
     $loginForm.on('submit', function signIn(event){
         event.preventDefault();
         ns.login($user.val())
             .done(function setStoriesView(){
                 ns.getAdventures()
                     .done(function pullStories(data){
-                        // Save the list of stories that the server returns
-                        //  into a global variable so we can use it later
                         storyList = data;
                         adventureList();
                     });
@@ -39,7 +36,6 @@
      * @return {void}
      */
     function adventureList() {
-        console.log('storyList: ', storyList);
         storyList.forEach(function showStories(story) {
             $adventuresView
                 .show()
@@ -61,28 +57,23 @@
      * @return {object}           the story object with it's various properties.
      */
     function findStory(storyList, storyId) {
-        // TODO: Ask Jordan why we can't return story from within the forEach loop
         var selectedStory = {};
         storyList.forEach(function(story) {
             if (story.id === storyId) {
                 selectedStory = story;
             }
         });
-
         return selectedStory;
     }
 
 
-    // Get the story details
     $adventuresView.on('click', 'button', function viewStory(event){
         var storyId = $(event.target).data('id');
         var story = findStory(storyList, storyId);
 
-        // Get story details starting at the specified step from server
         ns.getStepDetails(story.first_step_id)
             .done(function(data) {
                 stepDetails = data;
-                // Show story details at step
                 displayStory();
             });
     });
@@ -114,8 +105,6 @@
     }
 
 
-
-    // Get the next step of the story
     $storyStep.on('click', 'button', function viewStep(event){
         var stepId;
         if (event.target.innerText === 'Choose A') {
@@ -127,11 +116,8 @@
             .done(function(data) {
                 stepDetails = data;
                 displayStory();
-                console.log(stepDetails);
             });
     });
-
-
 
 
 })(window.story);
