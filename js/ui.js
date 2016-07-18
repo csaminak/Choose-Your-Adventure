@@ -76,6 +76,7 @@
                 stepDetails = data;
                 displayStory();
             });
+        ns.user.story = storyId;
     });
 
 
